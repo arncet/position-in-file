@@ -33,11 +33,12 @@ describe('utils : include', () => {
 })
 
 describe('utils : getGitIgnoreContent', () => {
-  it('will display the gitignore content', () => {
+  it('will display the .gitignore content', () => {
     const gitIgnoreContent = getGitIgnoreContent()
-    expect(gitIgnoreContent).to.have.lengthOf(2)
+    expect(gitIgnoreContent).to.have.lengthOf(3)
     expect(gitIgnoreContent[0]).to.be.eql('node_modules')
-    expect(gitIgnoreContent[1]).to.be.eql('')
+    expect(gitIgnoreContent[1]).to.be.eql('.DS_Store')
+    expect(gitIgnoreContent[2]).to.be.eql('')
   })
 })
 
