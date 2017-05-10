@@ -2,7 +2,7 @@
 
 A [node.js](https://nodejs.org/en/) util to find element position on a file of a folder.
 
-##How to use :
+## How to use :
 
 Install `position-in-file` via npm :
 
