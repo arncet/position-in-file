@@ -1,4 +1,5 @@
 # position-in-file
+![](https://travis-ci.org/arncet/position-in-file.svg?branch=master)
 
 A [node.js](https://nodejs.org/en/) util to find element position on a file of a folder.
 
