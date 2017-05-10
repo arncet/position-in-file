@@ -1,4 +1,4 @@
-#position-in-file
+# position-in-file
 
 A [node.js](https://nodejs.org/en/) util to find element position on a file of a folder.
 
@@ -37,7 +37,7 @@ If node doest display deep object you can use [util.inspect](https://nodejs.org/
 	console.log(inspect(result, {showHidden: false, depth: null}))
 ```
 
-##Parameters
+## Parameters
 
 * **`needle`** *(String || RegExp)* : The element to search, can be a *string* or a *regular expression*.
 * **`haystack`** *(String)* : The path where the research will be executed, it can be a file or folder path. If *haystack* is not defined the research will be excecuted in the current folder.
@@ -47,7 +47,7 @@ If node doest display deep object you can use [util.inspect](https://nodejs.org/
 	* **`fullPathRequired `** *(Boolean)* : If full path need to be specified on ```option.ignore``` or just the file name. Default : ```true```.
 	* **`gitIgnore `** *(Boolean)* : If .gitIgnore's file/folder need to be ignored. Default : ```true```.
 	
-##License :
+## License :
 
 MIT
 
