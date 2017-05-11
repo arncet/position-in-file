@@ -4,6 +4,7 @@ const include = require('../src/utils').include
 const getGitIgnoreContent = require('../src/utils').getGitIgnoreContent
 const bufferToString = require('../src/utils').bufferToString
 const parseOptions = require('../src/utils').parseOptions
+const parseRegExp = require('../src/utils').parseRegExp
 const DEFAULT_OPTIONS = require('../src/utils').DEFAULT_OPTIONS
 
 describe('utils : include', () => {
@@ -110,5 +111,28 @@ describe('utils : parseOptions', () => {
 
     expect(parsedOptions).to.have.property('gitIgnore')
     expect(parsedOptions.gitIgnore).to.be.false
+  })
+})
+
+describe('utils : parseRegExp', () => {
+  it('string to regexp', () => {
+    const regexp = parseRegExp('test')
+    expect(regexp).to.be.instanceof(RegExp)
+    expect(regexp.flags).to.be.eql('g')
+  })
+
+  it('add global flag', () => {
+    const regexp = parseRegExp(/test/)
+    expect(regexp.flags).to.be.eql('g')
+  })
+
+  it('don\'t change flag', () => {
+    const regexp = parseRegExp(/test/g)
+    expect(regexp.flags).to.be.eql('g')
+  })
+
+  it('stack flags', () => {
+    const regexp = parseRegExp(/test/i)
+    expect(regexp.flags).to.be.eql('gi')
   })
 })

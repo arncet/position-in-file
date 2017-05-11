@@ -32,7 +32,6 @@ function include (element, array) {
  * @return {array} An array of .gitignore's lines.
  */
 function getGitIgnoreContent () {
-  console.log(fs.readFileSync('.gitignore', {encoding: 'utf-8'}).split('\n'))
   return fs.readFileSync('.gitignore', {encoding: 'utf-8'}).split('\n')
 }
 
@@ -56,10 +55,27 @@ function parseOptions (options) {
   return Object.assign({}, DEFAULT_OPTIONS, options)
 }
 
+/**
+ * Add global flag to the given string/regExp.
+ * @param  {string} regExp Given string/regExp.
+ * @return {obect}  String/RegExp parsed.
+ */
+function parseRegExp (regExp) {
+  if (regExp.global) return regExp
+  const source = regExp instanceof RegExp ? regExp.source : regExp
+  var flags = 'g'
+  if (regExp.ignoreCase) flags += 'i'
+  if (regExp.multiline) flags += 'm'
+  if (regExp.unicode) flags += 'u'
+  if (regExp.sticky) flags += 'y'
+  return new RegExp(source, flags)
+}
+
 module.exports = {
   DEFAULT_OPTIONS: DEFAULT_OPTIONS,
   include: include,
   getGitIgnoreContent: getGitIgnoreContent,
   bufferToString: bufferToString,
-  parseOptions: parseOptions
+  parseOptions: parseOptions,
+  parseRegExp: parseRegExp
 }

@@ -1,3 +1,5 @@
+const parseRegExp = require('./utils').parseRegExp
+
 /**
  * Find column number of all file's occurances .
  * @param  {string} needle   The element to look for.
@@ -5,7 +7,7 @@
  * @return {array}  An array of column number.
  */
 function findInLine (needle, haystack) {
-  const regExp = new RegExp(needle, 'g')
+  const regExp = new RegExp(parseRegExp(needle))
   var match = null
   const matches = []
   while ((match = regExp.exec(haystack)) !== null) {

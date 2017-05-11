@@ -47,6 +47,10 @@ If node doest display deep object you can use [util.inspect](https://nodejs.org/
 	* **`ignore `** : *(Array)* An array to define the file/filter to ignore. Default : empty array.
 	* **`fullPathRequired `** *(Boolean)* : If full path need to be specified on ```option.ignore``` or just the file name. Default : ```true```.
 	* **`gitIgnore `** *(Boolean)* : If .gitIgnore's file/folder need to be ignored. Default : ```true```.
+
+## Todo :
+
+- [ ] Refacto : Don't stack all files on the same array but directly execute next functions to prevent `out of memory` Javascript errors on massive directory.
 	
 ## License :
 
