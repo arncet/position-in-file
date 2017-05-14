@@ -1,64 +1,45 @@
 const expect = require('chai').expect
 
-const getDirectoryFiles = require('../src/directory').getDirectoryFiles
+const findInDirectory = require('../src/directory').findInDirectory
 const isADirectory = require('../src/directory').isADirectory
 const DEFAULT_OPTIONS = require('../src/utils').DEFAULT_OPTIONS
 
-describe('directory : getDirectoryFiles', () => {
+describe('directory : findInDirectory', () => {
   it('default options', () => {
-    expect(getDirectoryFiles('test/directoryTest', DEFAULT_OPTIONS)).to.be.eql([
-      'test/directoryTest/directoryTest2/file1.js',
-      'test/directoryTest/directoryTest2/file3.css',
-      'test/directoryTest/file1.js',
-      'test/directoryTest/file2.css',
-      'test/directoryTest/file3.html'
+    expect(findInDirectory('foobar', 'test/directoryTest', DEFAULT_OPTIONS)).to.be.eql([
+      {file: 'test/directoryTest/directoryTest2/file1.js', lines: {2: [5]}},
+      {file: 'test/directoryTest/directoryTest2/file3.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file1.js', lines: {3: [5]}},
+      {file: 'test/directoryTest/file2.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file3.html', lines: {1: [2], 4: [3]}}
     ])
   })
 
   it('custom options (no deep)', () => {
     const options = Object.assign({}, DEFAULT_OPTIONS, {deep: false})
-
-    expect(getDirectoryFiles('test/directoryTest', options)).to.be.eql([
-      'test/directoryTest/file1.js',
-      'test/directoryTest/file2.css',
-      'test/directoryTest/file3.html'
+    expect(findInDirectory('foobar', 'test/directoryTest', options)).to.be.eql([
+      {file: 'test/directoryTest/file1.js', lines: {3: [5]}},
+      {file: 'test/directoryTest/file2.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file3.html', lines: {1: [2], 4: [3]}}
     ])
   })
 
   it('custom options (ignore test/directoryTest/file1.js)', () => {
     const options = Object.assign({}, DEFAULT_OPTIONS, {ignore: ['test/directoryTest/file1.js']})
-
-    expect(getDirectoryFiles('test/directoryTest', options)).to.be.eql([
-      'test/directoryTest/directoryTest2/file1.js',
-      'test/directoryTest/directoryTest2/file3.css',
-      'test/directoryTest/file2.css',
-      'test/directoryTest/file3.html'
+    expect(findInDirectory('foobar', 'test/directoryTest', options)).to.be.eql([
+      {file: 'test/directoryTest/directoryTest2/file1.js', lines: {2: [5]}},
+      {file: 'test/directoryTest/directoryTest2/file3.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file2.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file3.html', lines: {1: [2], 4: [3]}}
     ])
   })
 
-  it('custom options (ignore JS file)', () => {
-    const options = Object.assign({}, DEFAULT_OPTIONS, {ignore: [/.js$/]})
-
-    expect(getDirectoryFiles('test/directoryTest', options)).to.be.eql([
-      'test/directoryTest/directoryTest2/file3.css',
-      'test/directoryTest/file2.css',
-      'test/directoryTest/file3.html'
-    ])
-  })
-
-  it('custom options (ignore CSS and JS files)', () => {
-    const options = Object.assign({}, DEFAULT_OPTIONS, {ignore: [/.css$/, /.js$/]})
-
-    expect(getDirectoryFiles('test/directoryTest', options)).to.be.eql(['test/directoryTest/file3.html'])
-  })
-
-  it('custom options (no fullPathRequired and ignore file1.js)', () => {
+  it('custom options (no fullPathRequired, ignore file1.js)', () => {
     const options = Object.assign({}, DEFAULT_OPTIONS, {ignore: ['file1.js'], fullPathRequired: false})
-
-    expect(getDirectoryFiles('test/directoryTest', options)).to.be.eql([
-      'test/directoryTest/directoryTest2/file3.css',
-      'test/directoryTest/file2.css',
-      'test/directoryTest/file3.html'
+    expect(findInDirectory('foobar', 'test/directoryTest', options)).to.be.eql([
+      {file: 'test/directoryTest/directoryTest2/file3.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file2.css', lines: {1: [2]}},
+      {file: 'test/directoryTest/file3.html', lines: {1: [2], 4: [3]}}
     ])
   })
 })

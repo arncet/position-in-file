@@ -2,7 +2,6 @@ const expect = require('chai').expect
 
 const include = require('../src/utils').include
 const getGitIgnoreContent = require('../src/utils').getGitIgnoreContent
-const bufferToString = require('../src/utils').bufferToString
 const parseOptions = require('../src/utils').parseOptions
 const parseRegExp = require('../src/utils').parseRegExp
 const DEFAULT_OPTIONS = require('../src/utils').DEFAULT_OPTIONS
@@ -36,18 +35,11 @@ describe('utils : include', () => {
 describe('utils : getGitIgnoreContent', () => {
   it('will display the .gitignore content', () => {
     const gitIgnoreContent = getGitIgnoreContent()
-    expect(gitIgnoreContent).to.have.lengthOf(3)
+    expect(gitIgnoreContent).to.have.lengthOf(4)
     expect(gitIgnoreContent[0]).to.be.eql('node_modules')
-    expect(gitIgnoreContent[1]).to.be.eql('.DS_Store')
-    expect(gitIgnoreContent[2]).to.be.eql('')
-  })
-})
-
-describe('utils : bufferToString', () => {
-  it('will translate buffer to string', () => {
-    const bufferString = '0x68 0x65 0x6c 0x6c 0x6f 0x20 0x77 0x6f 0x72 0x6c 0x64'
-    const string = bufferToString(bufferString)
-    expect(string).to.be.eql('hello world')
+    expect(gitIgnoreContent[1]).to.be.eql('dist')
+    expect(gitIgnoreContent[2]).to.be.eql('.DS_Store')
+    expect(gitIgnoreContent[3]).to.be.eql('')
   })
 })
 

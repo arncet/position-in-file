@@ -36,15 +36,6 @@ function getGitIgnoreContent () {
 }
 
 /**
- * Translate a string buffer to string.
- * @param  {string} bufferString The buffer to translate.
- * @return {string} The buffer trasnlated.
- */
-function bufferToString (bufferString) {
-  return Buffer.from(bufferString.split(' ')).toString()
-}
-
-/**
  * Parse options, merge given option with defaults options.
  * @param  {oject} options Given options.
  * @return {obect} Options parsed.
@@ -75,7 +66,6 @@ module.exports = {
   DEFAULT_OPTIONS: DEFAULT_OPTIONS,
   include: include,
   getGitIgnoreContent: getGitIgnoreContent,
-  bufferToString: bufferToString,
   parseOptions: parseOptions,
   parseRegExp: parseRegExp
 }

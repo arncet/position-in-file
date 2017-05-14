@@ -1,11 +1,12 @@
 const fs = require('fs')
 const include = require('./utils').include
 const includeMimeType = require('./file').includeMimeType
+const findInFile = require('./file').findInFile
 
 /**
  * All elements that always ignored
  */
-const ALWAYS_IGNORED = ['.git', 'node_modules']
+const ALWAYS_IGNORED = ['.git', 'node_modules', '.DS_Store']
 
 /**
  * Check of an element is a directory.
@@ -16,12 +17,7 @@ function isADirectory (element) {
   return fs.statSync(element).isDirectory()
 }
 
-/**
- * Get all directory's files.
- * @param  {string} directory The current directory.
- * @return {array}  An array of file path.
- */
-function getDirectoryFiles (directory, options) {
+function findInDirectory (needle, directory, options) {
   const content = fs.readdirSync(directory)
   const deep = options.deep
   const ignore = options.ignore
@@ -34,14 +30,19 @@ function getDirectoryFiles (directory, options) {
     const mimeTypeIgnored = includeMimeType(element)
     if (ignored || alwaysIgnored || mimeTypeIgnored) return prev
     if (isADirectory(path)) {
-      if (deep) return prev.concat(getDirectoryFiles(path, options))
+      if (deep) return Array.from(prev).concat(findInDirectory(needle, path, options))
       return prev
     }
-    return Array.from(prev).concat([path])
+    const lines = findInFile(needle, path)
+    if (Object.keys(lines).length) {
+      const result = {file: path, lines: lines}
+      return Array.from(prev).concat(result)
+    }
+    return prev
   }, [])
 }
 
 module.exports = {
-  getDirectoryFiles: getDirectoryFiles,
+  findInDirectory: findInDirectory,
   isADirectory: isADirectory
 }

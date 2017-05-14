@@ -3,7 +3,7 @@
 const include = require('./utils').include
 const parseOptions = require('./utils').parseOptions
 const isADirectory = require('./directory').isADirectory
-const getDirectoryFiles = require('./directory').getDirectoryFiles
+const findInDirectory = require('./directory').findInDirectory
 const findInFile = require('./file').findInFile
 
 /**
@@ -14,23 +14,18 @@ const findInFile = require('./file').findInFile
  * @return {object} The result.
  */
 module.exports = function positionInFile (needle, haystack, options) {
-  options = parseOptions(options)
-  const ignore = options.ignore
+  const parsedOptions = parseOptions(options)
+  const ignore = parsedOptions.ignore
 
   if (!needle) return console.log('A valid `needle` parameter is required')
-  if (!haystack) haystack = [__dirname]
-  else if (!Array.isArray(haystack)) haystack = [haystack]
+  if (!haystack) haystack = __dirname
 
-  const files = haystack.reduce(function (prev, element) {
-    if (include(element, ignore)) return prev
-    const isDirectory = isADirectory(element)
-    if (isDirectory) return prev.concat(getDirectoryFiles(element, options))
-    return Array.from(prev).concat([element])
-  }, [])
+  const result = (function () {
+    if (include(haystack, ignore)) return []
+    if (isADirectory(haystack)) return findInDirectory(needle, haystack, parsedOptions)
+    const lines = findInFile(needle, haystack)
+    return Object.keys(lines).length ? [{file: haystack, lines: lines}] : []
+  })()
 
-  const result = files.reduce(function (prev, file) {
-    const lines = findInFile(needle, file)
-    return lines ? prev.concat({file: file, lines: lines}) : prev
-  }, [])
   return result
 }
