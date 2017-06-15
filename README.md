@@ -3,6 +3,8 @@
 
 A [node.js](https://nodejs.org/en/) util to find element position on a file of a folder.
 
+An asynchronous version of `position-in-file` is available : [position-in-file-async](https://github.com/arncet/position-in-file-async).
+
 ## How to use :
 
 Install `position-in-file` via npm :
