@@ -32,7 +32,8 @@ function include (element, array) {
  * @return {array} An array of .gitignore's lines.
  */
 function getGitIgnoreContent () {
-  return fs.readFileSync('.gitignore', {encoding: 'utf-8'}).split('\n')
+  const GITIGNORE = '.gitignore'
+  return fs.existsSync(GITIGNORE) ? fs.readFileSync(GITIGNORE, {encoding: 'utf-8'}).split('\n') : []
 }
 
 /**
